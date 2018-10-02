@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="blue">
+    <title>My App</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="../../dist/css/framework7.ios.min.css">
+    <!-- Path custom app styles-->
+      <link rel="stylesheet" href="path/to/framework7.ios.colors.min.css"> 
+    <link rel="stylesheet" href="css/my-app.css">
+  </head>
+  <body>
+    <!-- Views, it works as tabs-->
+    <!-- Set "toolbar-through" class  to keep space for the tab bar-->
+    <div class="views tabs toolbar-through">
+      <!-- First view (tab) Home, "active" class to make it visible by default-->
+      <div id="view-1" class="view view-main tab active">
+         <div class="navbar">
+          <div class="navbar-inner">
+            <!-- Holding the app title header-->
+            <div class="center"> <font face="impact" size="6" color="grey">Bacon App </font></div>
+              </div>
+            </div>
+        <div class="pages navbar-through">
+          <div data-page="index-1" class="page">
+            <div class="page-content">
+             <!-- Display app description -->
+              <div class="content-block-title"><font face="impact" size="4" color="grey"> Welcome to Bacon App </font></div>
+                <div class="content-block"><h3><font size= "3"> Bacon App allows editors to write news stories <br> 
+                 and keep track of different world events as they occur. </font> </h3>
+              </div>
+ <script>
+       // Facebook Login Process
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '406334579795410', // facebook app ID 
+          cookie     : true,  // enable cookies to allow the server to access the session
+          xfbml      : true,  // parse social plugins on this page
+          version    : 'v2.8' // use graph api version 2.8
+        });
+        FB.getLoginStatus(function(response) { // this function gets the state of the person visiting the page
+            statusChangeCallback(response);
+        });
+      };
+      (function(d, s, id){ // Load the SDK asynchronously
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+
+       function statusChangeCallback(response) {
+        if(response.status === 'connected') {
+           console.log('Logged in and authenticated');
+           setElements(true);
+           testAPI();
+          } else {
+           console.log('Not authenticated');
+           setElements(false);
+         }
+       }
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
+      }
+      function testAPI(){  // function testAPI, it runs a test of the Graph API after login is successful
+        FB.api('/me?fields=name,email,birthday,location', function(response){
+          if(response && !response.error){
+            buildProfile(response);
+          }
+          FB.api('/me/feed', function(response){
+            if(response && !response.error){
+              buildFeed(response);
+            }
+          });
+        })
+      }
+      function buildProfile(user){ // function buildProfile ,prints out the user name,email,birthday and location when is logged in
+        let profile = `
+          <h3>${ 'Thanks for logging in '+   user.name}</h3>
+          <ul class="list-group">
+            <li class="list-group-item">Email: ${user.email}</li>
+            <li class="list-group-item">Birthday: ${user.birthday}</li>
+            <li class="list-group-item">Location: ${user.location.name}</li>
+          </ul>
+        `;
+        document.getElementById('profile').innerHTML = profile;
+      }
+      function buildFeed(feed){ // function buildFeed, prints out the user latest posts from facebook when the user is logged in 
+        let output = '<h3>Latest Posts on Facebook </h3>';
+        for(let i in feed.data){
+          if(feed.data[i].message){
+            output += `
+              <div class="feedPosts">
+                ${feed.data[i].message} <span>${feed.data[i].created_time.replace("T"," ").replace ("+0000"," ")}</span>
+ hjn              </div>
+            `;
+          }
+        }
+        document.getElementById('feed').innerHTML = output;
+      }
+      function setElements(isLoggedIn){ // function setElements set the elements to display 
+        if(isLoggedIn){
+          document.getElementById('logout').style.display = 'block';
+          document.getElementById('profile').style.display = 'block';
+          document.getElementById('feed').style.display = 'block';
+          document.getElementById('fb-btn').style.display = 'none';
+          document.getElementById('heading').style.display = 'none';
+        } else {
+          document.getElementById('logout').style.display = 'none';
+          document.getElementById('profile').style.display = 'none';
+          document.getElementById('feed').style.display = 'none';
+          document.getElementById('fb-btn').style.display = 'block';
+          document.getElementById('heading').style.display = 'block';
+        }
+      }
+      function logout(){
+        FB.logout(function(response){ // function logout, log out the user and sets the Elements to false
+          setElements(false);
+        });
+      }
+    </script>
+     <!-- Facebook button Login -->
+     <fb:login-button  
+      data-size="large"
+      id="fb-btn"
+      scope="public_profile,email,user_birthday,user_location,user_posts"
+      onlogin="checkLoginState();">
+    </fb:login-button >
+     <!-- Logout button-->  
+    <button id="logout" type="button" class= "button button-round active" onclick="logout()" >Logout </button>
+      <!-- div container holding ID Elements-->          
+    <div class="container">
+      <h3 id="heading">Please Login </h3>
+      <div id="profile"></div>
+      <div id="feed"></div>
+    </div>
+   </div>
+    </div>
+      </div>
+    </div>
+    <!--Second view (tab) Business-->
+      <div id="view-2" class="view tab">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="center sliding"><font face="impact" size="6" color="grey">Business </font></div>
+          </div>
+        </div>
+        <div class="pages navbar-through">
+          <div data-page="index-2" class="page">
+            <div class="page-content">
+                <!--  div calling getElementById -->
+                  <div id = "businessNews"></div>
+                  <div class = "navbar">
+                    <div class= "navbar-inner">  
+                         
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
+                         
+   <script>
+     // URL api key business news
+      $.getJSON("https://newsapi.org/v1/articles?source=business-insider&sortBy=top&apiKey=b5e4af15ea64468d8e0725f6294d1f2b",
+          function(data){
+              console.log(data.articles)
+              var arrayOfData = data.articles
+              for (var i = 0; i < 10; i++) {
+              var img = arrayOfData[i].urlToImage;
+              var title = arrayOfData[i].title;    
+              var desc = arrayOfData[i].description;
+              var time = arrayOfData[i].publishedAt.replace ("Z"," ").replace("T","  "); 
+               // appending to the div  
+              document.getElementById ('businessNews').innerHTML +=
+              '<img src= '+img+' height="65" width= "150"/>'+title+ '<br>' +desc+ '<br>' +time+ '<br>';
+              }   
+   });                 
+  </script>
+                         
+   </div>
+    </div>
+      </div>
+     </div>
+    </div>
+  </div>
+  <!--Third view (tab) Sports-->      
+  <div id="view-3" class="view tab">
+    <div class="navbar">
+      <div class="navbar-inner">
+         <div class="center"><font face="impact" size="6" color="grey">Sports </font></div>
+       </div>
+    </div>
+     <div class="pages navbar-through" color= "black">
+       <div data-page="index-3" class="page">
+          <div class="page-content">
+            <!--  div calling getElementById -->
+             <div id = "sportsNews"></div>
+             <div class = "navbar">
+               <div class= "navbar-inner">
+                      
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+                      
+ <script>
+      // URL api key sports news
+      $.getJSON("https://newsapi.org/v2/top-headlines?sources=the-sport-bible&apiKey=b5e4af15ea64468d8e0725f6294d1f2b",
+        function(data) {
+            console.log(data.articles)
+            var arrayOfData = data.articles
+              for (var i = 0; i < 10; i++) {
+                var img = arrayOfData[i].urlToImage;    
+                var title = arrayOfData[i].title;     
+                var desc = arrayOfData[i].description;
+                var time = arrayOfData[i].publishedAt.replace ("Z"," ").replace("T","  ");     
+                // appending to the div 
+                document.getElementById ('sportsNews').innerHTML += 
+                '<img src= '+img+' height= "65" width= "150" />' +title+ '<br>'+desc+ '<br>'  +time+ '<br>';
+             }   
+      });  
+
+  </script>
+                      
+    </div>
+      </div>            
+        </div>
+         </div>
+      </div>
+   </div>
+  <!--Fourth view (tab) Financial-->  
+  <div id="view-4" class="view tab">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="center"><font face="impact" size="6" color="grey">Financial </font></div>
+      </div>
+    </div>
+      <div class="pages navbar-through">
+        <div data-page="index-4" class="page">
+          <div class = "page-content">
+             <!--  div calling getElementById -->
+              <div id="financialNews"> </div> 
+              <div class = "navbar">
+                <div class= "navbar-inner"> 
+                     
+ <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+                          
+ <script>
+      // URL api key financial news
+      $.getJSON("https://newsapi.org/v2/top-headlines?sources=financial-post&apiKey=b5e4af15ea64468d8e0725f6294d1f2b", 
+        function(data) {
+          console.log(data.articles)
+            var arrayOfData = data.articles
+              for (var i = 0; i < 10; i++) { 
+                var desc = arrayOfData[i].description;
+                var title = arrayOfData[i].title;    
+                var img = arrayOfData[i].urlToImage;
+                var time = arrayOfData[i].publishedAt.replace ("Z"," ").replace("T","  ");     
+              // appending to the div   
+                document.getElementById ('financialNews').innerHTML += 
+                '<img src= '+img+' height="65" width="150" />'+title+ '<br>' +desc+ '<br>' +time+ '<br>';
+              }   
+      });        
+ </script>
+                     
+   </div>
+     </div>  
+       </div>
+        </div>
+     </div> 
+   </div>
+ <!--Fifth view (tab) New Story-->  
+ <div id="view-5" class="view tab">
+   <div class="navbar">
+    <div class="navbar-inner">
+       <div class="center"><font face="impact" size="6" color="grey">New Story </font></div>
+    </div>
+   </div>
+    <div class="pages navbar-through">
+      <div data-page="index-5" class="page">
+        <div class = "page-content">
+        <div class="content-block-title"><font face="impact" size="4" color="grey"> Write a New Story </font></div>
+        <div class="content-block"></div> 
+                
+ <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+                          
+  <script>                
+     function sendData() { // function sendData, get the user input and send to the database,
+         var input = document.getElementById('story').value;
+         console.log(input);
+         $.get("http://52.48.79.163/db.php?type=newstory&id=406334579795410&data="+input)
+                                      .done( function (res) {
+                         
+        });
+                     
+        var uri = "http://52.48.79.163/db.php?type=newstory&id=406334579795410&data="+input;
+        var res = encodeURI(uri);      
+        console.log(res);          
+                     
+        }                          
+ </script> 
+  <!-- input text framework 7 library-->               
+   <div class="list-block">
+    <ul>
+     <li>
+      <div class="item-content">
+        <div class="item-inner">
+          <div class="item-input">
+           <input type="text" id="story">
+          </div>
+         </div>
+       </div>
+      </li>
+    </ul>
+  </div>
+ <div class = "navbar">
+  <div class= "navbar-inner"> 
+    <!-- Send data button -->                
+     <button id= "sendData" type ="button"  class= "button button-round active" onclick="sendData()" > Send Story
+     </button>                    
+      </div>
+        </div>                       
+         </div>
+      </div>
+    </div> 
+   </div>
+<!--Sixth view (tab) My Stories-->  
+ <div id="view-6" class="view tab">
+    <div class="navbar">
+     <div class="navbar-inner">
+       <div class="center"><face="impact" size="6" color="grey"> My Stories </font></div>
+     </div>
+    </div>
+     <div class="pages navbar-through">
+        <div data-page="index-6" class="page">
+         <div class = "page-content">
+            <div class="content-block"></div>
+             <!--  div calling getElementById -->
+             <div id = "output">  </div>
+               <div class = "navbar">
+                <div class= "navbar-inner"> 
+                          
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+ <script>            
+    function getStories() { // function getStories, retrieves data from the database based on the facebook app ID
+        $.get( "http://52.48.79.163/db.php?type=getmystories&id=406334579795410")
+        .done(function(res) {
+				
+        document.getElementById ('output').innerHTML = res;
+        });
+
+   } 
+ </script>
+  <!-- My Stories button -->                             
+   <button id="getStories" type="button" class= "button button-round active" onclick="getStories()" >My Stories
+   </button>             
+    </div>
+      </div>
+        </div>                         
+      </div>
+    </div>  
+  </div>
+ <!--Seventh view (tab) Database News-->  
+ <div id="view-7" class="view tab">
+   <div class="navbar">
+     <div class="navbar-inner">
+      <div class="center"><font face="impact" size="6" color="grey"> Database News </font></div>
+    </div>
+   </div>
+    <div class="pages navbar-through">
+      <div data-page="index-7" class="page">
+        <div class = "page-content">
+          <div class="content-block"></div>
+            <!--  div calling getElementById -->
+              <div id = "databaseNews"> </div>
+              <div class = "navbar">
+                <div class= "navbar-inner"> 
+                          
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+                          
+ <script>                                   
+    function getDatabaseNews(){ // function getDabaseNews retrieves ten stories from the database using paramenter 
+        $.get( "http://52.48.79.163/db.php?type=top10stories", { type: "top10stories" } )
+        .done(function( data ) {
+         var obj = jQuery.parseJSON(data);
+         console.log(obj.news.story[0]);         
+         var news = obj.news.story
+         for (var i = 0; i <10; i++){
+         var desc = news [i];
+         var decode = decodeURI(desc);
+         console.log(desc);	
+         document.getElementById ('databaseNews').innerHTML += '<br>' +desc+ '<br>';
+         } 
+
+         });
+    }
+ </script>
+	 <!-- Display News button -->   				
+    <button id="getDatabaseNews" type="button" class= "button button-round active" onclick="getDatabaseNews()">Display News
+    </button>			
+      </div>
+       </div>
+         </div>                        
+          </div>
+         </div>  
+       </div>
+     <!-- Bottom Tabbar-->
+   <div class="toolbar tabbar tabbar-labels">
+        <div class="toolbar-inner"><a href="#view-1"class="tab-link"><img src="./images/home1-logo.png"  height="32px" width="36px"><span class="tabbar-label">Home</span></a>
+        <a href="#view-2" class="tab-link"><img src="./images/business-logo.png" height="32px" width="36px"><span class="tabbar-label">Business</span></a>
+        <a href="#view-3" class="tab-link"><img src="./images/sportB-logo.png" height="32px" width="36px"><span class="tabbar-label">Sports</span></a>
+        <a href="#view-4" class="tab-link"><img src="./images/financial-post-logo.png" height="32px" width="36px"><span class="tabbar-label">Financial</span></a>
+        <a href="#view-5" class="tab-link"><img src="./images/write-logo.png" height="32px" width="36px"><span class="tabbar-label"> New Story </span></a>
+        <a href="#view-6" class="tab-link"><img src="./images/text-logo.png" height="32px" width="36px"><span class="tabbar-label"> My Stories</span></a>
+        <a href="#view-7" class="tab-link"><img src="./images/database-logo.png" height="32px" width="36px"><span class="tabbar-label"> Database News</span></a></div>  
+    </div>
+  </div>
+    <!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="../../dist/js/framework7.min.js"></script>
+    <!-- Path to your app js-->
+    <script type="text/javascript" src="js/my-app.js"></script>
+  </body>
+</html>
